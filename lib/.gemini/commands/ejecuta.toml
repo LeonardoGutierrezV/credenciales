@@ -1,0 +1,23 @@
+description ='Ejecuta un prompt'
+
+prompt = '''
+
+Antes de realizar cualquier actividad, ejecuta un comando de bash para ver si hay cambios no confirmados, no preparados o no rastreados en la rama actual. SI hay cambios no confirmados, no preparados o no rastreados CANCELA este proceso e indique al usuario que no continue.
+
+Lee el "archivo" promt en la ubicación ./prompts/{{arg}}.
+
+Tu trabajo es:
+
+1. Si NO se ha agregado el arg de identificación del "archivo" indica al usuario que no se agrego el argumento y aborta el proceso.
+2. Si el direcorio ./prompts no existe. indica al usuario que el direcotrio no existe y pregunta al usuario si debes crearlo.
+3. Si la respuesta es No: aborta el proceso e indica al usuario que se aborto el proceso. Si la respuesta es Si: crea el direcotrio ./prompts. Indica al usuario que se ha creado el directorio y aborta el proceso.
+4. Si el directorio ./prompts esta vacio aborta el proceso. e indica que el direcorio se ecuentra vacio1. Derivar un nombre de rama seguro basado en el nombre del "archivo". el nombre de la rama debera se escrito en minusculas.
+5. Muesta al usuario el nombre de la rama y el comando git que intentas ejecutar (ejemplo: git switch -c lib/NombreRama )
+6. Ejecuta en bash el comando para cambiar de rama. Si existen cambios uncommited indocalo al usuario y aborta el proceso.
+7. Crea un nuevo archivo de prueba para el "archivo" que se esta ejecutando /test/"archivo" y escribe un pequeño det de pruebas para validar el comportamiento derivado de la requisición en el "archivo". No ejecutes la prueba aún.
+8. Crea el archivo de la requisiciónen "archivo".dart en la carpeta ./lib/
+9. Cuando se haya creado el archivo con el codigo derivado de la requisición en el "archivo" ejecuta las pruebas para garantizar el funcionamiento del codigo derivado de la requisición. Si el  codigo de la requisiición falla corrije los errores y ejecutas las pruebas hasta que el codigo pase las pruebas.
+10. Una vez que pase las pruebas actualiza el codigo del archivo ./lib/main.dart: agrega el codigo para la creación de una pantalla cuyo nombre concatene("scr","archivo"). Agrega una instancia de la clase creada en la requisición "archivo"
+11. Actualiza el codigo del archivo ./lib/main.dart: Agrega un boton cuyo nombre concatene("btn_","archivo"), valor de la propiedad texto = "archivo". Su metodo debe desplegar la pantalla creada.
+12. Resume brebemente lo realizdo.
+'''
