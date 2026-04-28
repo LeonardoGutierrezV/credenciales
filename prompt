@@ -1,0 +1,46 @@
+# PROMPT DE EJECUCIÓN: Credenciales PVC Pro (Windows Desktop)
+
+Actúa como un Senior Flutter Developer especializado en Windows Desktop e integración de hardware. Tu objetivo es desarrollar el módulo principal de la aplicación de creación de credenciales de PVC siguiendo las especificaciones técnicas detalladas a continuación.
+
+## 1. ESPECIFICACIONES DEL LIENZO (CANVAS)
+El área de previsualización debe respetar estrictamente el estándar físico CR-80:
+- Relación de aspecto: 1.586 (85.6mm x 53.98mm).
+- Resolución: Preparado para renderizado a 300 DPI para impresión térmica.
+- Capas de diseño (Orden de arriba hacia abajo):
+    1. Logotipo: Imagen centrada en la parte superior.
+    2. Fotografía: Imagen del usuario centrada proporcionalmente.
+    3. Banda de Identidad: Rectángulo de color sólido.
+    4. Nombre: Texto superpuesto a la banda con opciones de color y fondo.
+    5. Código Dinámico: Generador de Barcode (128) o QR basado en el ID de empleado.
+    6. Footer: Nombre de la empresa en el margen inferior.
+
+## 2. PANEL DE CONFIGURACIÓN (LATERAL IZQUIERDO)
+Implementar un panel de control con los siguientes inputs dinámicos que actualicen la vista previa en tiempo real:
+- Selección de Archivos: Pickers para Logotipo y Fotografía.
+- Gestión de Textos: Inputs para "Nombre del Colaborador" y "Nombre de Empresa" con controles de color (Hex) y toggle de transparencia para el fondo del texto.
+- Parámetros de Código: ComboBox para seleccionar entre (QR, Code128, EAN13) y un campo para el "Número de Empleado".
+- Estética Global: Selectores de color para el "Fondo de la Credencial" y el "Color de la Banda".
+
+## 3. FUNCIONES DE SISTEMA
+- Menú "Archivo": 
+    - [Nueva Credencial]: Reset de todos los estados a valores por defecto.
+    - [Exportar PDF]: Generación de archivo PDF en tamaño CR-80 exacto.
+    - [Imprimir]: Integración con la librería `printing` para envío directo al spooler de Windows (Optimizado para Zebra ZXP).
+
+## 4. PROTOCOLO DE EJECUCIÓN MAESTRA
+Sigue estos pasos obligatorios para la entrega:
+
+1. DESIGNACIÓN: Genera una rama llamada: Feature_PVC_Generator_<timestamp_yymmddHHMM>.
+2. COMANDO: Muestra: `git switch -c <nombre_de_la_rama>`.
+3. TDD: 
+   - Crea `test/credential_logic_test.dart`.
+   - Implementa pruebas para la lógica de generación de códigos y el escalado de dimensiones MM a Pixeles.
+4. IMPLEMENTACIÓN:
+   - Crea la estructura de carpetas: `/lib/models`, `/lib/widgets`, `/lib/services`.
+   - Utiliza las dependencias: `barcode_widget`, `pdf`, `printing`, `image_picker`, `flutter_colorpicker`.
+   - Proporciona el código completo de la clase principal y sus componentes.
+5. VERIFICACIÓN: Ejecuta las pruebas. Si fallan, corrige hasta un máximo de 3 intentos.
+6. FINALIZACIÓN: Informa: "Clase [Nombre] creada y verificada con éxito en rama <nombre_rama>."
+
+---
+*RESTRICCIÓN:* El código debe ser modular, utilizando un archivo .dart por cada clase relevante. Priorizar layouts responsivos para Windows Desktop.*
