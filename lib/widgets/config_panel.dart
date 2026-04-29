@@ -26,9 +26,23 @@ class _ConfigPanelState extends State<ConfigPanel> {
       builder: (context) => AlertDialog(
         title: const Text('Seleccionar Color'),
         content: SingleChildScrollView(
-          child: ColorPicker(
-            pickerColor: initialColor,
-            onColorChanged: onColorChanged,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ColorPicker(
+                pickerColor: initialColor,
+                onColorChanged: onColorChanged,
+                enableAlpha: true,
+                displayThumbColor: true,
+                paletteType: PaletteType.hsvWithHue,
+              ),
+              const SizedBox(height: 16),
+              const Text('Entrada Manual (RGBA / HEX)', style: TextStyle(fontWeight: FontWeight.bold)),
+              ColorPickerInput(
+                initialColor,
+                onColorChanged,
+              ),
+            ],
           ),
         ),
         actions: [
@@ -111,7 +125,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
               ],
               const Divider(),
               _buildSubHeader('Etiqueta'),
-              _buildTextField('Nombre Colaborador', model.collaboratorName, (v) => model.updateCollaboratorName(v)),
+              _buildTextField('Nombre Colaborador', model.collaboratorName, (v) => model.updateCollaboratorName(v), multiline: true),
               _buildSlider('Tamaño letra', model.labelFontSize / 40, (v) => model.updateLabelFontSize(v * 40), min: 0.1),
               _buildDropdown<FontType>(
                 label: 'Tipo letra',
@@ -247,12 +261,14 @@ class _ConfigPanelState extends State<ConfigPanel> {
     );
   }
 
-  Widget _buildTextField(String label, String initialValue, Function(String) onChanged) {
+  Widget _buildTextField(String label, String initialValue, Function(String) onChanged, {bool multiline = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         decoration: InputDecoration(labelText: label, border: const OutlineInputBorder(), isDense: true),
         onChanged: onChanged,
+        maxLines: multiline ? null : 1,
+        keyboardType: multiline ? TextInputType.multiline : TextInputType.text,
         controller: TextEditingController(text: initialValue)..selection = TextSelection.collapsed(offset: initialValue.length),
       ),
     );

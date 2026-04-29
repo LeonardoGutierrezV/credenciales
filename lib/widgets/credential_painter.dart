@@ -119,8 +119,10 @@ class CredentialPainter extends CustomPainter {
       height: model.labelLineSpacing,
     );
 
+    final fullText = '${model.collaboratorName}\nN.Empleado: ${model.controlData}';
+
     final textPainter = TextPainter(
-      text: TextSpan(text: model.collaboratorName, style: textStyle),
+      text: TextSpan(text: fullText, style: textStyle),
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
     );

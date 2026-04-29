@@ -107,7 +107,7 @@ class PrintService {
                         ),
                         child: pw.Center(
                           child: pw.Text(
-                            model.collaboratorName,
+                            '${model.collaboratorName}\nN.Empleado: ${model.controlData}',
                             textAlign: pw.TextAlign.center,
                             style: pw.TextStyle(
                               color: PdfColor.fromInt(model.labelTextColor.value),
