@@ -1,0 +1,111 @@
+# PROMPT DE EJECUCIÓN: Credenciales PVC Pro (Windows Desktop)
+
+## Actualización de titulo.
+
+    Diseñador de credenciales.
+
+## Cambiar la ubicacion de los elementos.
+
+- Plantiullas
+    1. Guardar.
+    2. Cargar.
+
+Agregarlos al menu y disponer el menu de la siguiente forma:
+
+    Nueva credencial
+    ----Separador
+    Guardar Plantilla
+    Cargar Plantilla
+    ----Separador
+    Exportar
+    Imprimir
+
+## La orientación por default de las credenciales debe ser Vertical.
+
+## Reorganizar elementos de configuración.
+
+Para mejorar la experiencia del usuario y la funcionalidad reorganiza el orden de los elementos modificables de la credencial y agrega parametros de configuracion indiviual para cada elemento.
+
+- Crea un panel para cada propiedad que se extienda al seleccionarlo para mostrar los parametros de la propiedad, debe contraerse al cambiar de propiedad, para que sean visibles solo los parametros de la propiedad que esta en proceso de edicion.
+
+- Distribuyelos de la siguiente manera.
+
+    1. Logotipo
+        Propiedades
+            - Selector de Imagen para utilizar como logotipo
+            - Posicion Y
+            - Centrado X: Checkbox
+                Si esta seleccionado coloca el elemento centrado en X y asigna el valor a la propiedad Posicion X y deshabilita la entrada manual del valores.
+                SINO: Habilita la entrada manual de la propiedad Posicion X y asigna la posicion de X de acuerdo con en valor ingresado.
+            - Posicion X: 
+            - Tamaño: debe conservar la proprcion de la imagen.
+    2. Fotografia
+        Propiedades
+            - Selector de Imagen Fotografía
+            - Posicion Y
+            - Centrado X: Checkbox
+                Si esta seleccionado coloca el elemento centrado en X y asigna el valor a la propiedad Posicion X y deshabilita la entrada manual del valores.
+                SINO: Habilita la entrada manual de la propiedad Posicion X y asigna la posicion de X de acuerdo con en valor ingresado.
+            - Posicion X: 
+            - Tamaño: debe conservar la proprcion de la imagen.
+    3. Persona
+        Propiedades
+            * Banda
+                Sub Propiedades: Debe ocupar el ancho de la credencial.
+                    - Posicion Y
+                    - Tamaño: Solo afecta el alto de la banda.
+                    - Color de banda.
+                    - Imagen de fondo de banda.
+                        Mostrar imagen de fondo
+                            > Centrada: conserva el tamaño original de la imagen y la centra dentro del espacio de la banda.
+                            > Extendida: La imajen se ajusta a la banda en un stretch.
+                            > Derecha: Tamnaño original alineado a la derecha.
+                            > Izquierda: Tamaño original alineado a la Izquierda. 
+                    Debe permitir cambiar seleccion de fondo entre Color de banda o Imagen de fondo de banda, si se carga una imagen esta debera ser visible solamente dentro del tamaño establecido de la banda.
+            * Etiqueta
+                Sub Propiedades:
+                Nombre del colaborador: Caja de entrada de texto a mostrar en la etiqueta. Utilizar arial como tipo de letra
+                    - Tamaño de letra.
+                    - Tipo: Normal, delgada, ultra delgada, bold, 
+                    - Ajustar texto: el testo debe mostrarse solo dentro del area que ocupa la banda, ajustando con salto de línea el texto.
+                    - Borde vertical: espacio de separacion de la etiqueta desde el borde Superior interno de la banda, para que el texto se pueda ajustar dentro de esta área. debe asignarse el mismo valor de borde Arriba y abajo.
+                    - Borde Horizontal: espacio de separacion de la etiqueta desde el borde izquierdo interno de la banda, para que el texto se pueda ajustar dentro de esta área. debe asignarse el mismo valor de borde a la izquierda y a la derecha.
+                    - Interlineado: Valor del espacio de salto de linea entre linea y linea del texto de la etiqueta. utilizar como referencia multiplos de 0.5: ejemplo 0.5 , 1, 1.5, 2 ...
+    4. Control
+        Numero de control: Caja de entrada de texto para generar codigo: Barras / QR
+        Propiedades
+            - Selector de tipo de codigo
+            - Posicion Y
+            - Centrado X: Checkbox
+                Si esta seleccionado coloca el elemento centrado en X y asigna el valor a la propiedad Posicion X y deshabilita la entrada manual del valores.
+                SINO: Habilita la entrada manual de la propiedad Posicion X y asigna la posicion de X de acuerdo con en valor ingresado.
+            - Posicion X: 
+            - Tamaño: debe conservar la proprcion del codigo generado.
+            - Color de codigo: negro por omision
+    5. Empresa
+        Nombre de la empresa: Caja de texto para cargar el nombre de la empresa.
+        Propiedades
+            - Tamaño de letra.
+            - Tipo: Normal, delgada, ultra delgada, bold, 
+            - Borde Horizontal: espacio de separacion de la etiqueta desde el borde izquierdo interno de la credencial, para que el texto se pueda ajustar dentro de esta área. debe asignarse el mismo valor de borde a la izquierda y a la derecha.
+            - Interlineado: Valor del espacio de salto de linea entre linea y linea del texto de la etiqueta. utilizar como referencia multiplos de 0.5: ejemplo 0.5 , 1, 1.5, 2 ...        
+            
+## PROTOCOLO DE EJECUCIÓN MAESTRA
+Sigue estos pasos obligatorios para la entrega:
+
+1. DESIGNACIÓN: Genera una rama llamada: Credenciales_<timestamp_yymmddHHMM>.
+2. COMANDO: Muestra: `git switch -c <nombre_de_la_rama>`.
+3. TDD: 
+   - Crea `test/credential_logic_test.dart`.
+   - Implementa pruebas para la lógica de generación de códigos y el escalado de dimensiones MM a Pixeles.
+4. IMPLEMENTACIÓN:
+   - Crea la estructura de carpetas: `/lib/models`, `/lib/widgets`, `/lib/services`.
+   - Utiliza las dependencias: `barcode_widget`, `pdf`, `printing`, `image_picker`, `flutter_colorpicker`.
+   - Proporciona el código completo de la clase principal y sus componentes.
+5. VERIFICACIÓN: Ejecuta las pruebas. Si fallan, corrige hasta un máximo de 3 intentos.
+6. FINALIZACIÓN: Informa: "Clase [Nombre] creada y verificada con éxito en rama <nombre_rama>."
+
+---
+*RESTRICCIÓN:* El código debe ser modular, utilizando un archivo .dart por cada clase relevante. Priorizar layouts responsivos para Windows Desktop.*
+
+
