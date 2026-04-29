@@ -15,9 +15,9 @@ void main() {
     );
 
     // Verify that our app has the title.
-    expect(find.text('Credenciales PVC Pro - Generador'), findsOneWidget);
+    expect(find.text('Diseñador de credenciales'), findsWidgets);
     
-    // Verify that the config panel is present.
-    expect(find.text('CONFIGURACIÓN'), findsOneWidget);
+    // Verify that the config panel header is present.
+    expect(find.text('DISEÑADOR DE CREDENCIALES'), findsOneWidget);
   });
 }

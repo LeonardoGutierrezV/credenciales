@@ -1,0 +1,38 @@
+# PROMPT DE EJECUCIÓN: Credenciales PVC Pro (Windows Desktop)
+
+## 
+
+## Ajuste en _pickColor.
+
+    - Agrega la posibiulidad de ingresar los  valores de cada canal de color para poder seleccionar colores con base en parametros.
+    - Agrega la posibilidad de ingresar el nombre de color, por ejemplo: #ffcc00ff
+
+## Ajuste de la propiedad Persona.
+
+    3. Persona
+        Propiedades        
+            * Etiqueta
+                Sub Propiedades: 
+                Nombre del colaborador: Permitir ingresar saltos de linea. para poder separar (Apellido Paterno Apellido Materno )Salto de linea (Nombres)
+                    Tamaño: Debe tolerar tamaños mas grandes de letra.
+                Concatena al valor de la propiedad Nombre del colaborador , Salto de linea, valor de la propiedad Numero de control con el formato: "N.Empleado: ######"
+            
+## PROTOCOLO DE EJECUCIÓN MAESTRA
+Sigue estos pasos obligatorios para la entrega:
+
+1. DESIGNACIÓN: Genera una rama llamada: Credenciales_<timestamp_yymmddHHMM>.
+2. COMANDO: Muestra: `git switch -c <nombre_de_la_rama>`.
+3. TDD: 
+   - Crea `test/credential_logic_test.dart`.
+   - Implementa pruebas para la lógica de generación de códigos y el escalado de dimensiones MM a Pixeles.
+4. IMPLEMENTACIÓN:
+   - Crea la estructura de carpetas: `/lib/models`, `/lib/widgets`, `/lib/services`.
+   - Utiliza las dependencias: `barcode_widget`, `pdf`, `printing`, `image_picker`, `flutter_colorpicker`.
+   - Proporciona el código completo de la clase principal y sus componentes.
+5. VERIFICACIÓN: Ejecuta las pruebas. Si fallan, corrige hasta un máximo de 3 intentos.
+6. FINALIZACIÓN: Informa: "Clase [Nombre] creada y verificada con éxito en rama <nombre_rama>."
+
+---
+*RESTRICCIÓN:* El código debe ser modular, utilizando un archivo .dart por cada clase relevante. Priorizar layouts responsivos para Windows Desktop.*
+
+

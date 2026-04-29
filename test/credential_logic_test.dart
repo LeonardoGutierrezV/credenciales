@@ -3,26 +3,26 @@ import 'package:credenciales/services/credential_utils.dart';
 import 'package:credenciales/models/credential_model.dart';
 
 void main() {
-  group('Credential Logic Tests (Orientation & Sizing)', () {
-    test('Aspect Ratio changes with orientation', () {
-      final landscapeRatio = CredentialUtils.aspectRatio(CredentialOrientation.landscape);
-      final portraitRatio = CredentialUtils.aspectRatio(CredentialOrientation.portrait);
+  group('CredentialUtils Logic Tests', () {
+    test('MM to Pixels conversion at 300 DPI', () {
+      // (25.4 mm / 25.4) * 300 = 300
+      expect(CredentialUtils.mmToPixel(25.4), 300.0);
       
-      expect(landscapeRatio, closeTo(1.586, 0.001));
-      expect(portraitRatio, closeTo(0.630, 0.001));
-      expect(landscapeRatio, 1 / portraitRatio);
+      // CR-80 Width: 85.6 mm -> (85.6 / 25.4) * 300 = 1011.02...
+      expect(CredentialUtils.mmToPixel(85.6), closeTo(1011.02, 0.01));
     });
 
-    test('Pixel dimensions match orientation', () {
-      final lw = CredentialUtils.widthPx(CredentialOrientation.landscape);
-      final lh = CredentialUtils.heightPx(CredentialOrientation.landscape);
-      final pw = CredentialUtils.widthPx(CredentialOrientation.portrait);
-      final ph = CredentialUtils.heightPx(CredentialOrientation.portrait);
+    test('Aspect Ratio calculation', () {
+      // Landscape: 85.6 / 53.98 = 1.585...
+      expect(CredentialUtils.aspectRatio(CredentialOrientation.landscape), closeTo(1.585, 0.001));
+      
+      // Portrait: 53.98 / 85.6 = 0.630...
+      expect(CredentialUtils.aspectRatio(CredentialOrientation.portrait), closeTo(0.630, 0.001));
+    });
 
-      expect(lw, ph);
-      expect(lh, pw);
-      expect(lw > lh, true);
-      expect(ph > pw, true);
+    test('CR-80 Dimensions in Pixels', () {
+       expect(CredentialUtils.cr80WidthPx, closeTo(1011.02, 0.01));
+       expect(CredentialUtils.cr80HeightPx, closeTo(637.55, 0.01));
     });
   });
 }

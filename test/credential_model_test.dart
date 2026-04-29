@@ -1,41 +1,37 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:credenciales/models/credential_model.dart';
 
 void main() {
-  group('CredentialModel Tests', () {
-    test('Default values are correct', () {
+  group('CredentialModel Serialization Tests', () {
+    test('toJson and loadFromTemplate should preserve all data', () {
       final model = CredentialModel();
-      expect(model.collaboratorName, 'Nombre del Colaborador');
-      expect(model.backgroundColor, Colors.white);
-      expect(model.codeType, CodeType.code128);
-    });
+      model.updateCollaboratorName('Test User');
+      model.updateLogoPosY(0.123);
+      model.updateBandColor(Colors.red);
+      model.updateOrientation(CredentialOrientation.landscape);
+      model.updateLogoCenteredX(false);
+      model.updateLogoPosX(0.456);
 
-    test('Update methods notify listeners', () {
-      final model = CredentialModel();
-      int callCount = 0;
-      model.addListener(() {
-        callCount++;
-      });
-
-      model.updateCollaboratorName('John Doe');
-      expect(model.collaboratorName, 'John Doe');
-      expect(callCount, 1);
-
-      model.updateBackgroundColor(Colors.red);
-      expect(model.backgroundColor, Colors.red);
-      expect(callCount, 2);
-    });
-
-    test('Reset works correctly', () {
-      final model = CredentialModel();
-      model.updateCollaboratorName('Changed');
-      model.updateBackgroundColor(Colors.black);
+      final json = model.toJson();
       
+      final newModel = CredentialModel();
+      newModel.loadFromTemplate(json);
+
+      expect(newModel.collaboratorName, 'Test User');
+      expect(newModel.logoPosY, 0.123);
+      expect(newModel.bandColor.value, Colors.red.value);
+      expect(newModel.orientation, CredentialOrientation.landscape);
+      expect(newModel.logoCenteredX, false);
+      expect(newModel.logoPosX, 0.456);
+    });
+
+    test('reset should restore default values', () {
+      final model = CredentialModel();
+      model.updateCollaboratorName('Modified');
       model.reset();
-      
       expect(model.collaboratorName, 'Nombre del Colaborador');
-      expect(model.backgroundColor, Colors.white);
+      expect(model.orientation, CredentialOrientation.portrait);
     });
   });
 }

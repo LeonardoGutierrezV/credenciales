@@ -17,6 +17,7 @@ class CredentialPreview extends StatefulWidget {
 class _CredentialPreviewState extends State<CredentialPreview> {
   ui.Image? _logoImage;
   ui.Image? _photoImage;
+  ui.Image? _bandImage;
 
   @override
   void didChangeDependencies() {
@@ -26,6 +27,7 @@ class _CredentialPreviewState extends State<CredentialPreview> {
 
   Future<void> _loadImages() async {
     final model = Provider.of<CredentialModel>(context);
+    
     if (model.logoPath.isNotEmpty) {
       final logo = await _loadImage(model.logoPath);
       if (mounted) setState(() => _logoImage = logo);
@@ -39,20 +41,35 @@ class _CredentialPreviewState extends State<CredentialPreview> {
     } else {
       if (mounted) setState(() => _photoImage = null);
     }
+
+    if (model.useBandImage && model.bandImagePath.isNotEmpty) {
+      final band = await _loadImage(model.bandImagePath);
+      if (mounted) setState(() => _bandImage = band);
+    } else {
+      if (mounted) setState(() => _bandImage = null);
+    }
   }
 
-  Future<ui.Image> _loadImage(String path) async {
-    final bytes = await File(path).readAsBytes();
-    final codec = await ui.instantiateImageCodec(bytes);
-    final frame = await codec.getNextFrame();
-    return frame.image;
+  Future<ui.Image?> _loadImage(String path) async {
+    try {
+      if (path.isEmpty) return null;
+      final file = File(path);
+      if (!await file.exists()) return null;
+      final bytes = await file.readAsBytes();
+      final codec = await ui.instantiateImageCodec(bytes);
+      final frame = await codec.getNextFrame();
+      return frame.image;
+    } catch (e) {
+      debugPrint('Error loading image $path: $e');
+      return null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<CredentialModel>();
     final aspectRatio = CredentialUtils.aspectRatio(model.orientation);
-
+    
     return LayoutBuilder(
       builder: (context, constraints) {
         final availableWidth = constraints.maxWidth;
@@ -87,18 +104,10 @@ class _CredentialPreviewState extends State<CredentialPreview> {
                     model: model,
                     logoImage: _logoImage,
                     photoImage: _photoImage,
+                    bandImage: _bandImage,
                   ),
                 ),
-                // Overlay Barcode
-                Positioned(
-                  bottom: height * 0.08,
-                  left: width * 0.1,
-                  right: width * 0.1,
-                  child: SizedBox(
-                    height: height * model.barcodeHeightFactor,
-                    child: _buildBarcode(model),
-                  ),
-                ),
+                _buildBarcodeOverlay(model, width, height),
               ],
             ),
           ),
@@ -107,25 +116,34 @@ class _CredentialPreviewState extends State<CredentialPreview> {
     );
   }
 
-  Widget _buildBarcode(CredentialModel model) {
+  Widget _buildBarcodeOverlay(CredentialModel model, double width, double height) {
     Barcode barcode;
     switch (model.codeType) {
-      case CodeType.qr:
-        barcode = Barcode.qrCode();
-        break;
-      case CodeType.ean13:
-        barcode = Barcode.ean13();
-        break;
+      case CodeType.qr: barcode = Barcode.qrCode(); break;
+      case CodeType.ean13: barcode = Barcode.ean13(); break;
       case CodeType.code128:
-      default:
-        barcode = Barcode.code128();
-        break;
+      default: barcode = Barcode.code128(); break;
     }
 
-    return BarcodeWidget(
-      barcode: barcode,
-      data: model.employeeId.isEmpty ? ' ' : model.employeeId,
-      drawText: false,
+    double codeH = height * model.controlSize;
+    double codeW = model.codeType == CodeType.qr ? codeH : codeH * 2; 
+
+    double x = model.controlCenteredX ? (width - codeW) / 2 : width * model.controlPosX;
+    double y = height * model.controlPosY;
+
+    return Positioned(
+      left: x,
+      top: y,
+      child: SizedBox(
+        width: codeW,
+        height: codeH,
+        child: BarcodeWidget(
+          barcode: barcode,
+          data: model.controlData.isEmpty ? ' ' : model.controlData,
+          color: model.controlColor,
+          drawText: false,
+        ),
+      ),
     );
   }
 }
